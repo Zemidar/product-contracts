@@ -1,0 +1,106 @@
+openapi: 3.0.3
+
+info:
+  title: API
+  description: |
+    API providing access to Product Service 1
+  version: 1.0.0-SNAPSHOT
+
+servers:
+  - url: https://api.product.com/v1/service1
+
+security:
+  - BearerAuth: []
+
+tags:
+  - name: Tag1
+    description: |
+      Tag1 are lists of values
+
+paths:
+
+  /dto:
+    get:
+      summary: Retrieve dto
+      description: Use this endpoint to get a list of dto
+      operationId: getDTO
+      tags:
+        - Dto
+      parameters:
+        - name: parameter
+          in: query
+          description: >
+            Parameter
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/DTO"
+    post:
+      summary: Create dto
+      description: Use this endpoint to create a dto
+      operationId: createDTO
+      tags:
+        - Dto
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/DTO'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                  $ref: "#/components/schemas/DTO"
+
+  /dto/{id}:
+    delete:
+      tags:
+        - Dto
+      summary: Delete a dto
+      description: Use this endpoint to delete dto
+      operationId: deleteDTO
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        204:
+          description: The dto has been successfully deleted
+
+
+components:
+
+  securitySchemes:
+
+    BearerAuth:
+      type: http
+      scheme: bearer
+
+  parameters:
+
+    id:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+
+  schemas:
+
+    DTO:
+      type: object
+      description: Dto model
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        description:
+          type: boolean

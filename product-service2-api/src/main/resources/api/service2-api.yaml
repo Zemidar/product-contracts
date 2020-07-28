@@ -1,0 +1,107 @@
+openapi: 3.0.3
+
+info:
+  title: API
+  description: |
+    API providing access to Product Service 2
+  version: 1.0.0-SNAPSHOT
+
+servers:
+  - url: https://api.product.com/v1/service2
+
+security:
+  - BearerAuth: []
+
+tags:
+  - name: Tag2
+    description: |
+      Tag2 are lists of values
+
+paths:
+
+  /entity:
+    get:
+      summary: Get entity
+      description: Use this endpoint to get a list of entity
+      operationId: getEntity
+      tags:
+        - Entity
+      parameters:
+        - name: type
+          in: query
+          description: >
+            Type
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Entity"
+    post:
+      summary: Create entity
+      description: Use this endpoint to create a entity
+      operationId: createEntity
+      tags:
+        - Entity
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/Entity'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Entity"
+
+  /entity/{id}:
+    delete:
+      tags:
+        - Entity
+      summary: Delete an entity
+      description: Use this endpoint to delete entity
+      operationId: deleteEntity
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        204:
+          description: The entity has been successfully deleted
+
+
+components:
+
+  securitySchemes:
+
+    BearerAuth:
+      type: http
+      scheme: bearer
+
+  parameters:
+
+    id:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+
+  schemas:
+
+    Entity:
+      type: object
+      description: Dto model
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
